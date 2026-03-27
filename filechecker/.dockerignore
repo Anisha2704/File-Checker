@@ -1,0 +1,25 @@
+# Build output
+target/
+build/
+dist/
+
+# Logs
+*.log
+
+# IntelliJ files
+.idea/
+*.iml
+
+# Git
+.git
+.gitignore
+
+# Node (if present)
+node_modules/
+
+# Environment files
+.env
+
+# OS files
+.DS_Store
+Thumbs.db
