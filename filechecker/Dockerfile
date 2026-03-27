@@ -1,18 +1,18 @@
-# Use Java 17 runtime
-FROM eclipse-temurin:17-jdk-jammy
-
-# Set working folder
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
 
-# Copy project files
-COPY pom.xml .
-COPY src ./src
+# Copy everything
+COPY . .
 
-# Build the project
-RUN ./mvnw clean package -DskipTests
+# Build project
+RUN mvn clean package -DskipTests
 
-# Tell Docker which port the app runs on
+FROM eclipse-temurin:17-jdk-jammy
+WORKDIR /app
+
+# Copy jar from build stage
+COPY --from=build /app/target/*.jar app.jar
+
 EXPOSE 8080
 
-# Run the Spring Boot app
-CMD ["java", "-jar", "target/filechecker-0.0.1-SNAPSHOT.jar"]
+CMD ["java", "-jar", "app.jar"]
